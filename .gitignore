@@ -1,0 +1,6 @@
+.venv
+.idea
+.git
+secret.py
+data.xlsx
+~$data.xlsx
