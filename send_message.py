@@ -33,3 +33,4 @@ def append_files(message, files):
             encoders.encode_base64(part)
             part.add_header('Content-Disposition', f"attachment; filename={file_path}")
         message.attach(part)
+    return message

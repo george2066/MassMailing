@@ -19,7 +19,7 @@ file_pathes = [
 ]
 
 where_are_from = 'sales111@cardpark.su'
-password = secret.PASSWORD
+password = secret.PASSWORD_IMAP
 text = '''
 Добрый день!
  
@@ -61,7 +61,14 @@ while True:
     message = MIMEMultipart()
     message['From'] = where_are_from
     message['To'] = email
-    s.sendmail(message['From'], message['To'], message.as_string())
+    message = append_files(message, file_pathes)
+    message.attach(MIMEText(f'{text}', 'plain', 'utf-8'))
+    try:
+        s.sendmail(message['From'], message['To'], message.as_string())
+    except Exception as e:
+        print(f'Мыло {email} недоступен😒: {e}')
+        row += 1
+        continue
     print(f'{header} отправлено✉️ на {email}')
     row += 1
     s.quit()
