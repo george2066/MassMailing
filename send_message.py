@@ -1,5 +1,5 @@
 import smtplib
-from app import ConsoleApp
+from app import EmailMassMailingApp
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -8,7 +8,7 @@ import pandas as pd
 
 
 
-def send_message_for_email(login, password_imap, text, excel, files, console_app: ConsoleApp):
+def send_message_for_email(login, password_imap, text, excel, files, console_app: EmailMassMailingApp):
     df = pd.read_excel(excel, sheet_name='Лист1')
 
     row = 1
@@ -16,6 +16,7 @@ def send_message_for_email(login, password_imap, text, excel, files, console_app
         header = df.iloc[row, 6]
         text = text
         email = df.iloc[row, 3]
+        console_app.log_message(f'Значение мыла: {email.value}')
         if header == 'Генеральному директору ООО ""' or type(header) == str:
             console_app.log_message('\nБольше компаний не найдено😁\nИли может вы забыли добавить в столбец премичаний заглавия письма?🧐\n')
             break

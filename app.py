@@ -1,40 +1,69 @@
 import sys
 
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, QFileDialog
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, QFileDialog, \
+    QLineEdit, QLabel
 
 
-class ConsoleApp(QWidget):
+class EmailMassMailingApp(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Консольное приложение")
-        self.setGeometry(100, 100, 600, 400)
+        width_input = 300
+        width_button = 200
+        width_text = 400
+        height_text_field = 500
+
+        self.setWindowTitle("Приложение для рассылки КП")
 
         # Основной вертикальный layout
-        layout = QVBoxLayout()
+        layout = QHBoxLayout()
+        # Горизонтальный layout для кнопки
+        right_layout = QVBoxLayout()
+        right_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        # Горизонтальный layout для ввода email и password_imap
+        left_layout = QVBoxLayout()
+
+        # Поля ввода
+        self.email_input = QLineEdit()
+        self.password_imap_input = QLineEdit()
+        self.email_input.setFixedWidth(width_input)
+        self.password_imap_input.setFixedWidth(width_input)
+        self.email_input.setPlaceholderText('Введите ваш Email🐶')
+        self.password_imap_input.setPlaceholderText('Введите ваш пароль IMAP🔐')
+        self.password_imap_input.setEchoMode(QLineEdit.EchoMode.Password)
+
+        # Ну и я решил в левый layout добавить кнопку выбора файла
+        button_file = QPushButton("Выбрать файл")
+        button_file.setFixedWidth(width_button)
+        button_file.clicked.connect(self.show_file_dialog)
+
+        # Добавляем виджеты в левый layout
+        left_layout.addWidget(QLabel('Email: '))
+        left_layout.addWidget(self.email_input)
+        left_layout.addWidget(QLabel('Password IMAP: '))
+        left_layout.addWidget(self.password_imap_input)
+        left_layout.addWidget(button_file)
+        left_layout.addStretch()
 
         # QTextEdit для вывода сообщений
         self.console_output = QTextEdit()
+        self.console_output.setFixedWidth(width_text)
+        self.console_output.setFixedHeight(height_text_field)
         self.console_output.setReadOnly(True)  # Делаем текстовое поле только для чтения
         self.console_output.setStyleSheet("background-color: black; color: white;")  # Черный фон, белый текст
 
-        layout.addWidget(self.console_output)
-
-        # Горизонтальный layout для кнопок
-        multi_format_layout = QHBoxLayout()
-
         # Пример поля для ввода файла
+        button_send_messages = QPushButton("Отослать")
+        button_send_messages.setFixedWidth(width_button)
 
-        # Пример кнопок
-        button_file = QPushButton("Выбрать файл")
-        button_file.clicked.connect(self.show_file_dialog)
-        button1 = QPushButton("Отослать")
+        # Добавляем кнопки в right_layout
+        right_layout.addWidget(self.console_output)
+        right_layout.addWidget(button_send_messages)
+        right_layout.setAlignment(button_send_messages, Qt.AlignmentFlag.AlignHCenter)
 
-        # Добавляем кнопки в горизонтальный layout
-        multi_format_layout.addWidget(button_file)
-        multi_format_layout.addWidget(button1)
-
-        layout.addLayout(multi_format_layout)
+        layout.addLayout(left_layout)
+        layout.addLayout(right_layout)
 
         # Устанавливаем основной layout
         self.setLayout(layout)
@@ -60,8 +89,10 @@ class ConsoleApp(QWidget):
         self.console_output.append(message)
 
 
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    console_app = ConsoleApp()
+    console_app = EmailMassMailingApp()
     console_app.show()
     sys.exit(app.exec())
