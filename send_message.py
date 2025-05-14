@@ -8,7 +8,7 @@ import pandas as pd
 
 
 
-def send_message(login, password_imap, text, excel, files, console_app: ConsoleApp):
+def send_message_for_email(login, password_imap, text, excel, files, console_app: ConsoleApp):
     df = pd.read_excel(excel, sheet_name='Лист1')
 
     row = 1

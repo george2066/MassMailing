@@ -2,8 +2,6 @@ import sys
 
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, QFileDialog
 
-from send_message import send_message
-
 
 class ConsoleApp(QWidget):
     def __init__(self):

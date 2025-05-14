@@ -45,19 +45,20 @@ e-mail: dirrazv@cardpark.su
 
 df = pd.read_excel('data.xlsx', sheet_name='Лист1')
 
-row = 1
+row = 0
 
 while True:
     header = df.iloc[row, 6]
     text = text
     email = df.iloc[row, 3]
-    if header == 'Генеральному директору ООО ""':
+    if type(email) == float:
         print('Больше компаний не найдено😁')
         break
     s = smtplib.SMTP('smtp.yandex.ru', 587, timeout=10)
     s.starttls()
     s.login(where_are_from, password)
     message = MIMEMultipart()
+    message['Subject'] = header
     message['From'] = where_are_from
     message['To'] = email
     message = append_files(message, file_pathes)
