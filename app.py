@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton, QHBoxLayout, QFileDialog, \
     QLineEdit, QLabel
 
@@ -22,6 +23,7 @@ class EmailMassMailingApp(QWidget):
         height_text_field = 500
 
         self.setWindowTitle("Приложение для рассылки КП")
+        self.setWindowIcon(QIcon('icon.ico'))
 
         # Основной вертикальный layout
         layout = QHBoxLayout()
